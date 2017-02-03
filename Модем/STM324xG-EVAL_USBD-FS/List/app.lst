@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  14:16:35 #
+# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  17:52:46 #
 # Copyright 1999-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Cpu mode     =  thumb                                                    #
@@ -72,102 +72,360 @@ C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\app.c
      41             
      42          __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
      43          
-     44          
+     44          //Переменные USB
      45          extern volatile uint8_t APP_Rx_Buffer [];
      46          extern volatile uint32_t APP_Rx_ptr_in;
-     47          uint8_t mybyte = 0;
-     48          
-     49          void USB_CDC_buffer_write_byte(uint8_t byte);
-     50          
-     51          int main(void)
-     52          {
-     53            __IO uint32_t i = 0;  
-     54          
-     55            /*!< At this stage the microcontroller clock setting is already configured, 
-     56            this is done through SystemInit() function which is called from startup
-     57            file (startup_stm32fxxx_xx.s) before to branch to application main.
-     58            To reconfigure the default setting of SystemInit() function, refer to
-     59            system_stm32fxxx.c file
-     60            */  
-     61           
-     62            USBD_Init(&USB_OTG_dev,
-     63          #ifdef USE_USB_OTG_HS 
-     64                      USB_OTG_HS_CORE_ID,
-     65          #else            
-     66                      USB_OTG_FS_CORE_ID,
-     67          #endif  
-     68                      &USR_desc, 
-     69                      &USBD_CDC_cb, 
-     70                      &USR_cb);
-     71            
-     72            /* Main loop */
-     73            while (1)
-     74            {
-     75              if (i++ == 0x10000)
-     76              {
-     77                USB_CDC_buffer_write_byte(mybyte);
-     78                mybyte++;
-     79                i = 0;
-     80              }
-     81            }
-     82          } 
-     83          
-     84          
-     85          void USB_CDC_buffer_write_byte(uint8_t byte) {
-     86            APP_Rx_Buffer[APP_Rx_ptr_in++] = byte;
-     87            if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
-     88            {
-     89              APP_Rx_ptr_in = 0;
-     90            }
-     91          }
-     92          
-     93          
-     94          
-     95          
-     96          
+     47          //Переменные TIM (для отладки)
+     48          uint8_t previousState=0;
+     49          //Переменные CAN
+     50          CanTxMsg TxMessage;
+     51          CanRxMsg RxMessage;
+     52          
+     53          uint8_t mybyte = 0;
+     54          uint8_t i = 0;
+     55          
+     56          
+     57          struct Packet
+     58            {
+     59              uint8_t START;
+     60              uint8_t LENP;
+     61              uint8_t POT[4];
+     62              uint8_t CRCs;
+     63            };
+     64          struct Packet DataPacket;
+     65          
+     66          void USB_CDC_buffer_write_byte(uint8_t byte);
+     67          void SendPacket(void);
+     68          void ResetPacket(void);
+     69          void TIM4_Config(void);
+     70          void CAN_Config(void);
+     71          
+     72          int main(void)
+     73          {
+     74             
+     75          
+     76            /*!< At this stage the microcontroller clock setting is already configured, 
+     77            this is done through SystemInit() function which is called from startup
+     78            file (startup_stm32fxxx_xx.s) before to branch to application main.
+     79            To reconfigure the default setting of SystemInit() function, refer to
+     80            system_stm32fxxx.c file
+     81            */  
+     82           
+     83            USBD_Init(&USB_OTG_dev,     
+     84                      USB_OTG_FS_CORE_ID,
+     85                      &USR_desc, 
+     86                      &USBD_CDC_cb, 
+     87                      &USR_cb);
+     88             
+     89            ResetPacket();
+     90            
+     91            TIM4_Config();
+     92            CAN_Config();
+     93            
+     94            /* Main loop */
+     95            while (1)
+     96            {
      97          
-     98          #ifdef USE_FULL_ASSERT
-     99          /**
-    100          * @brief  assert_failed
-    101          *         Reports the name of the source file and the source line number
-    102          *         where the assert_param error has occurred.
-    103          * @param  File: pointer to the source file name
-    104          * @param  Line: assert_param error line source number
-    105          * @retval None
-    106          */
-    107          void assert_failed(uint8_t* file, uint32_t line)
-    108          {
-    109            /* User can add his own implementation to report the file name and line number,
-    110            ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-    111            
-    112            /* Infinite loop */
-    113            while (1)
-    114            {}
-    115          }
-    116          #endif
-    117          
-    118          /**
-    119            * @}
-    120            */ 
-    121          
-    122          
-    123          /**
-    124            * @}
-    125            */ 
-    126          
-    127          
-    128          /**
-    129            * @}
-    130            */ 
-    131          
-    132          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+     98            }
+     99          } 
+    100          
+    101          void USB_CDC_buffer_write_byte(uint8_t byte) {
+    102            APP_Rx_Buffer[APP_Rx_ptr_in++] = byte;
+    103            if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
+    104            {
+    105              APP_Rx_ptr_in = 0;
+    106            }
+    107          }
+    108          
+    109          void SendPacket(void)
+    110          {
+    111              USB_CDC_buffer_write_byte(DataPacket.START++);
+    112              USB_CDC_buffer_write_byte(DataPacket.LENP);
+    113              for (uint8_t counter = 0; counter < (DataPacket.POT[1]+2); counter ++ )
+    114              {
+    115                USB_CDC_buffer_write_byte(DataPacket.POT[counter]);
+    116              }
+    117              USB_CDC_buffer_write_byte(DataPacket.CRCs);
+    118          }
+    119          
+    120          void ResetPacket(void)
+    121          {
+    122              DataPacket.START = 0x00;
+    123              DataPacket.LENP = 7;
+    124              DataPacket.POT[0] = 0x77;
+    125              DataPacket.POT[1] = 2;
+    126              DataPacket.POT[2] = 0;
+    127              DataPacket.POT[3] = 0;
+    128              DataPacket.CRCs = 0xFF;
+    129          }
+    130          
+    131          void CAN_Config(void);
+    132          
+    133          void TIM4_Config(void)
+    134          {
+    135              TIM_TimeBaseInitTypeDef timer;
+    136              //Включаем тактирование таймера TIM4
+    137              //Таймер 4 у нас висит на шине APB1
+    138              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+    139              //Заполняем поля структуры дефолтными значениями
+    140              TIM_TimeBaseStructInit(&timer);
+    141              //Выставляем предделитель
+    142              timer.TIM_Prescaler = 300-1;
+    143              //Тут значение, досчитав до которого таймер сгенерирует прерывание
+    144              //Кстати это значение мы будем менять в самом прерывании
+    145              timer.TIM_Period = 2000-1; //Частота 100Гц
+    146              //Инициализируем TIM4 нашими значениями
+    147              TIM_TimeBaseInit(TIM4, &timer);	
+    148              //Настраиваем таймер для генерации прерывания по обновлению (переполнению)
+    149              TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+    150              //Запускаем таймер 
+    151              TIM_Cmd(TIM4, ENABLE);
+    152              //Разрешаем соответствующее прерывание
+    153              NVIC_InitTypeDef NVIC_InitStructure;
+    154          
+    155              NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
+    156              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    157              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    158              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    159              NVIC_Init(&NVIC_InitStructure);
+    160              
+    161              GPIO_InitTypeDef GPIO_InitStructure;
+    162              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+    163              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    164              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    165              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    166              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    167              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    168              GPIO_Init(GPIOC, &GPIO_InitStructure);
+    169             
+    170          }
+    171          
+    172          void TIM4_IRQHandler()
+    173          {	
+    174               TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+    175              //Если на выходе был 0..
+    176              if (previousState == 0)
+    177              {
+    178          	//Выставляем единицу на выходе
+    179          	previousState = 1;
+    180          	GPIO_SetBits(GPIOC, GPIO_Pin_13);
+    181              }
+    182              else
+    183              {
+    184          	//Выставляем ноль на выходе
+    185          	previousState = 0;
+    186          	GPIO_ResetBits(GPIOC, GPIO_Pin_13);	
+    187              }
+    188              
+    189              SendPacket();
+    190              
+    191              CAN_Transmit(CAN1, &TxMessage);
+    192          }
+    193          
+    194          void CAN_Config(void)
+    195          {   
+    196              /* CAN_1 clock enable */
+    197              RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+    198              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+    199            
+    200              //Кофигурируем GPIO ножки PB9, PB8 для CAN1
+    201              GPIO_InitTypeDef GPIO_InitStructure;
+    202              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+    203          
+    204              //Tx
+    205              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    206              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    207              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    208              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    209              GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
+    210              GPIO_Init(GPIOB, &GPIO_InitStructure);
+    211              
+    212              //Rx
+    213              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+    214              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    215              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    216              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    217              GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
+    218              GPIO_Init(GPIOB, &GPIO_InitStructure);
+    219             
+    220              GPIO_PinAFConfig(GPIOB, GPIO_PinSource9, GPIO_AF_CAN1);
+    221              GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_CAN1);
+    222            
+    223              /* CAN1 reset */
+    224              CAN_DeInit(CAN1);
+    225              
+    226              //Конфигурируем CAN1
+    227              CAN_InitTypeDef       CAN_InitStructure;
+    228              
+    229            CAN_InitStructure.CAN_TTCM = DISABLE; // time-triggered communication mode = DISABLED
+    230            CAN_InitStructure.CAN_ABOM = DISABLE; // automatic bus-off management mode = DISABLED
+    231            CAN_InitStructure.CAN_AWUM = DISABLE; // automatic wake-up mode = DISABLED
+    232            CAN_InitStructure.CAN_NART = ENABLE; // non-automatic retransmission mode = DISABLED
+    233            CAN_InitStructure.CAN_RFLM = DISABLE; // receive FIFO locked mode = DISABLED
+    234            CAN_InitStructure.CAN_TXFP = DISABLE; // transmit FIFO priority = DISABLED
+    235            CAN_InitStructure.CAN_Mode = CAN_Mode_Normal; //CAN_Mode_LoopBack; //CAN_Mode_Normal; //CAN_Mode_Silent_LoopBack; //
+    236            CAN_InitStructure.CAN_SJW = CAN_SJW_1tq; // synchronization jump width = 1
+    237             
+    238            /* CAN Baudrate = 1MBps (CAN clocked at 30 MHz) */ /* CAN Baudrate = 175kbps (CAN clocked at 42 MHz) */
+    239              CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq; //CAN_BS1_6tq
+    240              CAN_InitStructure.CAN_BS2 = CAN_BS2_8tq; //CAN_BS2_8tq
+    241              CAN_InitStructure.CAN_Prescaler = 2; //16
+    242              CAN_Init(CAN1, &CAN_InitStructure);
+    243          
+    244              //Конфигурируем фильтр сообщений CAN`a
+    245              CAN_FilterInitTypeDef CAN_FilterInitStructure;
+    246              
+    247              CAN_FilterInitStructure.CAN_FilterNumber = 0; // filter number = 0 (0<=x<=13)
+    248              CAN_FilterInitStructure.CAN_FilterMode = CAN_FilterMode_IdMask;
+    249              CAN_FilterInitStructure.CAN_FilterScale = CAN_FilterScale_32bit;
+    250              CAN_FilterInitStructure.CAN_FilterIdHigh = 0x0000;
+    251              CAN_FilterInitStructure.CAN_FilterIdLow = 0x0000;
+    252              CAN_FilterInitStructure.CAN_FilterMaskIdHigh = 0x0000;
+    253              CAN_FilterInitStructure.CAN_FilterMaskIdLow = 0x0000;
+    254              CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 0;
+    255              CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;  //ENABLE
+    256              CAN_FilterInit(&CAN_FilterInitStructure);
+    257          
+    258              //Кофигурируем NVIC прерывания
+    259              NVIC_InitTypeDef NVIC_InitStructure;
+    260          
+    261              NVIC_InitStructure.NVIC_IRQChannel = CAN1_RX0_IRQn;
+    262              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    263              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    264              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    265              NVIC_Init(&NVIC_InitStructure);
+    266          /*
+    267              NVIC_InitStructure.NVIC_IRQChannel = CAN1_TX_IRQn;
+    268              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    269              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    270              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    271              NVIC_Init(&NVIC_InitStructure);
+    272            */
+    273              
+    274              CAN_ITConfig(CAN1, CAN_IT_FMP0, ENABLE);
+    275           //   CAN_ITConfig(CAN1, CAN_IT_TME, ENABLE);    
+    276          
+    277              /* Transmit Structure preparation */
+    278              TxMessage.StdId = 0x12;
+    279              TxMessage.ExtId = 0x00;
+    280              TxMessage.RTR = CAN_RTR_DATA;
+    281              TxMessage.IDE = CAN_ID_STD;
+    282              TxMessage.DLC = 5;
+    283              TxMessage.Data[0] = 'S';
+    284              TxMessage.Data[1] = 'T';
+    285              TxMessage.Data[2] = 'A';
+    286              TxMessage.Data[3] = 'R';
+    287              TxMessage.Data[4] = 'T';
+    288          }
+    289          
+    290          void CAN1_RX0_IRQHandler(void)
+    291          {
+    292            if (CAN_GetITStatus(CAN1,CAN_IT_FMP0))
+    293            {
+    294              CAN_ClearITPendingBit(CAN1, CAN_IT_FMP0);
+    295              
+    296              RxMessage.StdId = 0x00;
+    297              RxMessage.IDE = CAN_ID_STD;
+    298              RxMessage.DLC = 0;
+    299              for (uint8_t DLC_i = 0; DLC_i < 8; DLC_i ++)
+    300                {
+    301                  RxMessage.Data[DLC_i] = 0x00;
+    302                }
+    303            
+    304              CAN_Receive(CAN1, CAN_FIFO0, &RxMessage);
+    305              CAN_FIFORelease(CAN1,CAN_FIFO0);
+    306              
+    307              if ((RxMessage.StdId == 0x77))
+    308            {
+    309              DataPacket.POT[0] = RxMessage.StdId;
+    310              DataPacket.POT[1] = RxMessage.DLC;
+    311              for (uint8_t counter = 0; counter < RxMessage.DLC; counter ++ )
+    312              {
+    313                DataPacket.POT[counter+2] = RxMessage.Data[counter];
+    314              }
+    315            }
+    316            }
+    317          }
+    318           
+    319          
+    320          
+    321          
+    322          #ifdef USE_FULL_ASSERT
+    323          /**
+    324          * @brief  assert_failed
+    325          *         Reports the name of the source file and the source line number
+    326          *         where the assert_param error has occurred.
+    327          * @param  File: pointer to the source file name
+    328          * @param  Line: assert_param error line source number
+    329          * @retval None
+    330          */
+    331          void assert_failed(uint8_t* file, uint32_t line)
+    332          {
+    333            /* User can add his own implementation to report the file name and line number,
+    334            ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    335            
+    336            /* Infinite loop */
+    337            while (1)
+    338            {}
+    339          }
+    340          #endif
+    341          
+    342          /**
+    343            * @}
+    344            */ 
+    345          
+    346          
+    347          /**
+    348            * @}
+    349            */ 
+    350          
+    351          
+    352          /**
+    353            * @}
+    354            */ 
+    355          
+    356          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 
    Maximum stack usage in bytes:
 
    .cstack Function
    ------- --------
+      16   CAN1_RX0_IRQHandler
+        16   -> CAN_ClearITPendingBit
+        16   -> CAN_FIFORelease
+        16   -> CAN_GetITStatus
+        16   -> CAN_Receive
+      48   CAN_Config
+        48   -> CAN_DeInit
+        48   -> CAN_FilterInit
+        48   -> CAN_ITConfig
+        48   -> CAN_Init
+        48   -> GPIO_Init
+        48   -> GPIO_PinAFConfig
+        48   -> NVIC_Init
+        48   -> RCC_AHB1PeriphClockCmd
+        48   -> RCC_APB1PeriphClockCmd
+       0   ResetPacket
+      12   SendPacket
+      32   TIM4_Config
+        32   -> GPIO_Init
+        32   -> NVIC_Init
+        32   -> RCC_AHB1PeriphClockCmd
+        32   -> RCC_APB1PeriphClockCmd
+        32   -> TIM_Cmd
+        32   -> TIM_ITConfig
+        32   -> TIM_TimeBaseInit
+        32   -> TIM_TimeBaseStructInit
+       8   TIM4_IRQHandler
+         0   -> CAN_Transmit
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+         8   -> SendPacket
+         8   -> TIM_ClearITPendingBit
        0   USB_CDC_buffer_write_byte
       16   main
+        16   -> CAN_Config
+        16   -> TIM4_Config
         16   -> USBD_Init
 
 
@@ -175,23 +433,39 @@ C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\app.c
 
    Bytes  Function/Label
    -----  --------------
-       4  ??DataTable1
-       4  ??DataTable1_1
-       4  ??DataTable1_2
-       4  ??DataTable1_3
-       4  ??DataTable1_4
-       4  ??DataTable1_5
-      26  USB_CDC_buffer_write_byte
-      74  main
-    1528  mybyte
+       4  ??DataTable7
+       4  ??DataTable7_1
+       4  ??DataTable7_10
+       4  ??DataTable7_2
+       4  ??DataTable7_3
+       4  ??DataTable7_4
+       4  ??DataTable7_5
+       4  ??DataTable7_6
+       4  ??DataTable7_7
+       4  ??DataTable7_8
+       4  ??DataTable7_9
+     138  CAN1_RX0_IRQHandler
+     296  CAN_Config
+      28  ResetPacket
+    1552  RxMessage
+          DataPacket
           USB_OTG_dev
+     180  SendPacket
+     138  TIM4_Config
+      60  TIM4_IRQHandler
+      21  TxMessage
+          previousState
+      26  USB_CDC_buffer_write_byte
+       1  i
+      58  main
+       1  mybyte
 
  
- 1 528 bytes in section .bss
-   124 bytes in section .text
+ 1 575 bytes in section .bss
+   968 bytes in section .text
  
-   124 bytes of CODE memory
- 1 528 bytes of DATA memory
+   968 bytes of CODE memory
+ 1 575 bytes of DATA memory
 
 Errors: none
 Warnings: none

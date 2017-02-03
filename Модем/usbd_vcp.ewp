@@ -4683,6 +4683,9 @@
         <name>$PROJ_DIR$\src\misc.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\src\stm32f4xx_can.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\src\stm32f4xx_dma.c</name>
       </file>
       <file>
@@ -4705,6 +4708,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\src\stm32f4xx_syscfg.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\src\stm32f4xx_tim.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\src\stm32f4xx_usart.c</name>

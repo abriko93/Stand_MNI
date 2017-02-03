@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1641178695
+Checksum=934784515
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -47,10 +47,6 @@ GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -58,10 +54,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Aliases]
-A0=_ "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\system_stm32f4xx.c" ""
-Count=1
-SuppressDialog=0
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -82,3 +74,11 @@ Mode=3
 Graph=0
 Symbiont=0
 Exclusions=
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Aliases]
+A0=_ "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\system_stm32f4xx.c" ""
+Count=1
+SuppressDialog=0
