@@ -1,35 +1,34 @@
 ###############################################################################
 #                                                                             #
-# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  12:49:09 #
+# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  14:16:35 #
 # Copyright 1999-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Cpu mode     =  thumb                                                    #
 #    Endian       =  little                                                   #
-#    Source file  =  C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\app.c    #
-#    Command line =  "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\app.c"  #
+#    Source file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\app.c    #
+#    Command line =  "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\app.c"  #
 #                    -D USE_STDPERIPH_DRIVER -D STM32F4XX -D                  #
 #                    USE_STM324xG_EVAL -D USE_USB_OTG_FS -lcN                 #
-#                    "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\" -o                #
-#                    "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\" --debug            #
-#                    --endian=little --cpu=Cortex-M4 -e --fpu=None            #
+#                    "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EV #
+#                    AL_USBD-FS\List\" -o "C:\Users\Андрей\Google             #
+#                    Диск\Stand_MNI\Модем\STM324xG-EVAL_USBD-FS\Obj\"         #
+#                    --debug --endian=little --cpu=Cortex-M4 -e --fpu=None    #
 #                    --dlib_config "C:\Program Files (x86)\IAR                #
 #                    Systems\Embedded Workbench 6.5\arm\INC\c\DLib_Config_Ful #
-#                    l.h" -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\"   #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\inc\"    #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\"    #
+#                    l.h" -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\"   #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\inc\"    #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\"    #
 #                    -Ohs --use_c++_inline -I "C:\Program Files (x86)\IAR     #
 #                    Systems\Embedded Workbench 6.5\arm\CMSIS\Include\"       #
-#    List file    =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\app.lst             #
-#    Object file  =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\app.o                #
+#    List file    =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\List\app.lst                                   #
+#    Object file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\Obj\app.o                                      #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\app.c
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\app.c
       1          /**
       2            ******************************************************************************
       3            * @file    app.c
@@ -64,152 +63,111 @@ C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\app.c
      32          #include "usb_conf.h"
      33          #include "usbd_desc.h"
      34          
-     35          /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
-     36            * @{
-     37            */
-     38          
-     39          
-     40          /** @defgroup APP_VCP 
-     41            * @brief Mass storage application module
-     42            * @{
-     43            */ 
+     35            
+     36          #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
+     37            #if defined ( __ICCARM__ ) /*!< IAR Compiler */
+     38              #pragma data_alignment=4   
+     39            #endif
+     40          #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
+     41             
+     42          __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
+     43          
      44          
-     45          /** @defgroup APP_VCP_Private_TypesDefinitions
-     46            * @{
-     47            */ 
-     48          /**
-     49            * @}
-     50            */ 
-     51          
-     52          
-     53          /** @defgroup APP_VCP_Private_Defines
-     54            * @{
-     55            */ 
-     56          
-     57          /**
-     58            * @}
-     59            */ 
-     60          
-     61          
-     62          /** @defgroup APP_VCP_Private_Macros
-     63            * @{
-     64            */ 
-     65          /**
-     66            * @}
-     67            */ 
-     68          
-     69          
-     70          /** @defgroup APP_VCP_Private_Variables
-     71            * @{
-     72            */ 
-     73            
-     74          #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
-     75            #if defined ( __ICCARM__ ) /*!< IAR Compiler */
-     76              #pragma data_alignment=4   
-     77            #endif
-     78          #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
-     79             
-     80          __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
-     81          
-     82          /**
-     83            * @}
-     84            */ 
-     85          
-     86          
-     87          /** @defgroup APP_VCP_Private_FunctionPrototypes
-     88            * @{
-     89            */ 
-     90          /**
-     91            * @}
-     92            */ 
+     45          extern volatile uint8_t APP_Rx_Buffer [];
+     46          extern volatile uint32_t APP_Rx_ptr_in;
+     47          uint8_t mybyte = 0;
+     48          
+     49          void USB_CDC_buffer_write_byte(uint8_t byte);
+     50          
+     51          int main(void)
+     52          {
+     53            __IO uint32_t i = 0;  
+     54          
+     55            /*!< At this stage the microcontroller clock setting is already configured, 
+     56            this is done through SystemInit() function which is called from startup
+     57            file (startup_stm32fxxx_xx.s) before to branch to application main.
+     58            To reconfigure the default setting of SystemInit() function, refer to
+     59            system_stm32fxxx.c file
+     60            */  
+     61           
+     62            USBD_Init(&USB_OTG_dev,
+     63          #ifdef USE_USB_OTG_HS 
+     64                      USB_OTG_HS_CORE_ID,
+     65          #else            
+     66                      USB_OTG_FS_CORE_ID,
+     67          #endif  
+     68                      &USR_desc, 
+     69                      &USBD_CDC_cb, 
+     70                      &USR_cb);
+     71            
+     72            /* Main loop */
+     73            while (1)
+     74            {
+     75              if (i++ == 0x10000)
+     76              {
+     77                USB_CDC_buffer_write_byte(mybyte);
+     78                mybyte++;
+     79                i = 0;
+     80              }
+     81            }
+     82          } 
+     83          
+     84          
+     85          void USB_CDC_buffer_write_byte(uint8_t byte) {
+     86            APP_Rx_Buffer[APP_Rx_ptr_in++] = byte;
+     87            if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
+     88            {
+     89              APP_Rx_ptr_in = 0;
+     90            }
+     91          }
+     92          
      93          
      94          
-     95          /** @defgroup APP_VCP_Private_Functions
-     96            * @{
-     97            */ 
-     98          
+     95          
+     96          
+     97          
+     98          #ifdef USE_FULL_ASSERT
      99          /**
-    100            * @brief  Program entry point
-    101            * @param  None
-    102            * @retval None
-    103            */
-    104          int main(void)
-    105          {
-    106            __IO uint32_t i = 0;  
-    107          
-    108            /*!< At this stage the microcontroller clock setting is already configured, 
-    109            this is done through SystemInit() function which is called from startup
-    110            file (startup_stm32fxxx_xx.s) before to branch to application main.
-    111            To reconfigure the default setting of SystemInit() function, refer to
-    112            system_stm32fxxx.c file
-    113            */  
-    114           
-    115            USBD_Init(&USB_OTG_dev,
-    116          #ifdef USE_USB_OTG_HS 
-    117                      USB_OTG_HS_CORE_ID,
-    118          #else            
-    119                      USB_OTG_FS_CORE_ID,
-    120          #endif  
-    121                      &USR_desc, 
-    122                      &USBD_CDC_cb, 
-    123                      &USR_cb);
-    124            
-    125            /* Main loop */
-    126            while (1)
-    127            {
-    128              if (i++ == 0x100000)
-    129              {
-    130                STM_EVAL_LEDToggle(LED1);
-    131                STM_EVAL_LEDToggle(LED2);
-    132                STM_EVAL_LEDToggle(LED3);
-    133                STM_EVAL_LEDToggle(LED4);
-    134                i = 0;
-    135              }
-    136            }
-    137          } 
-    138          
-    139          #ifdef USE_FULL_ASSERT
-    140          /**
-    141          * @brief  assert_failed
-    142          *         Reports the name of the source file and the source line number
-    143          *         where the assert_param error has occurred.
-    144          * @param  File: pointer to the source file name
-    145          * @param  Line: assert_param error line source number
-    146          * @retval None
-    147          */
-    148          void assert_failed(uint8_t* file, uint32_t line)
-    149          {
-    150            /* User can add his own implementation to report the file name and line number,
-    151            ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-    152            
-    153            /* Infinite loop */
-    154            while (1)
-    155            {}
-    156          }
-    157          #endif
-    158          
-    159          /**
-    160            * @}
-    161            */ 
-    162          
-    163          
-    164          /**
-    165            * @}
-    166            */ 
-    167          
-    168          
-    169          /**
-    170            * @}
-    171            */ 
-    172          
-    173          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+    100          * @brief  assert_failed
+    101          *         Reports the name of the source file and the source line number
+    102          *         where the assert_param error has occurred.
+    103          * @param  File: pointer to the source file name
+    104          * @param  Line: assert_param error line source number
+    105          * @retval None
+    106          */
+    107          void assert_failed(uint8_t* file, uint32_t line)
+    108          {
+    109            /* User can add his own implementation to report the file name and line number,
+    110            ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    111            
+    112            /* Infinite loop */
+    113            while (1)
+    114            {}
+    115          }
+    116          #endif
+    117          
+    118          /**
+    119            * @}
+    120            */ 
+    121          
+    122          
+    123          /**
+    124            * @}
+    125            */ 
+    126          
+    127          
+    128          /**
+    129            * @}
+    130            */ 
+    131          
+    132          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 
    Maximum stack usage in bytes:
 
    .cstack Function
    ------- --------
+       0   USB_CDC_buffer_write_byte
       16   main
-        16   -> STM_EVAL_LEDToggle
         16   -> USBD_Init
 
 
@@ -217,15 +175,23 @@ C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\app.c
 
    Bytes  Function/Label
    -----  --------------
-    1524  USB_OTG_dev
-      84  main
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_2
+       4  ??DataTable1_3
+       4  ??DataTable1_4
+       4  ??DataTable1_5
+      26  USB_CDC_buffer_write_byte
+      74  main
+    1528  mybyte
+          USB_OTG_dev
 
  
- 1 524 bytes in section .bss
-    84 bytes in section .text
+ 1 528 bytes in section .bss
+   124 bytes in section .text
  
-    84 bytes of CODE memory
- 1 524 bytes of DATA memory
+   124 bytes of CODE memory
+ 1 528 bytes of DATA memory
 
 Errors: none
 Warnings: none

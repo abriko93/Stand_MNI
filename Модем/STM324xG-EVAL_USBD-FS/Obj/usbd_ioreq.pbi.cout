@@ -1,12 +1,12 @@
-"C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\usbd_ioreq.c"
+"C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\usbd_ioreq.c"
 -std=c99
 -ferror-limit=100
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\inc
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\inc
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\CMSIS\Include
 -I
@@ -14,11 +14,11 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\inc\c
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\inc
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\inc
 -I
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\CMSIS\Include
 -DUSE_STDPERIPH_DRIVER=0
@@ -222,7 +222,7 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\CMSIS\Include
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=593160
 -D__DATE__="Feb  3 2017"
--D__TIME__="12:49:54"
+-D__TIME__="13:18:40"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

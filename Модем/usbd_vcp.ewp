@@ -4659,12 +4659,6 @@
     </file>
   </group>
   <group>
-    <name>STM32_EVAL</name>
-    <file>
-      <name>$PROJ_DIR$\src\lcd_log.c</name>
-    </file>
-  </group>
-  <group>
     <name>STM32F4xx</name>
     <excluded>
       <configuration>STM322xG-EVAL_USBD-HS</configuration>
@@ -4673,6 +4667,9 @@
     </excluded>
     <group>
       <name>STM324xG_EVAL</name>
+      <file>
+        <name>$PROJ_DIR$\src\lcd_log.c</name>
+      </file>
       <file>
         <name>$PROJ_DIR$\src\stm324xg_eval.c</name>
       </file>

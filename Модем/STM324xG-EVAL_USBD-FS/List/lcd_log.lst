@@ -1,36 +1,35 @@
 ###############################################################################
 #                                                                             #
-# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  12:49:10 #
+# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  13:18:27 #
 # Copyright 1999-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Cpu mode     =  thumb                                                    #
 #    Endian       =  little                                                   #
-#    Source file  =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\src\lcd_log.c                                  #
-#    Command line =  "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\src\lcd_log.c" -D USE_STDPERIPH_DRIVER -D      #
-#                    STM32F4XX -D USE_STM324xG_EVAL -D USE_USB_OTG_FS -lcN    #
-#                    "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\" -o                #
-#                    "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\" --debug            #
-#                    --endian=little --cpu=Cortex-M4 -e --fpu=None            #
+#    Source file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\lcd_log. #
+#                    c                                                        #
+#    Command line =  "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\lcd_log #
+#                    .c" -D USE_STDPERIPH_DRIVER -D STM32F4XX -D              #
+#                    USE_STM324xG_EVAL -D USE_USB_OTG_FS -lcN                 #
+#                    "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EV #
+#                    AL_USBD-FS\List\" -o "C:\Users\Андрей\Google             #
+#                    Диск\Stand_MNI\Модем\STM324xG-EVAL_USBD-FS\Obj\"         #
+#                    --debug --endian=little --cpu=Cortex-M4 -e --fpu=None    #
 #                    --dlib_config "C:\Program Files (x86)\IAR                #
 #                    Systems\Embedded Workbench 6.5\arm\INC\c\DLib_Config_Ful #
-#                    l.h" -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\"   #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\inc\"    #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\"    #
+#                    l.h" -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\"   #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\inc\"    #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\"    #
 #                    -Ohs --use_c++_inline -I "C:\Program Files (x86)\IAR     #
 #                    Systems\Embedded Workbench 6.5\arm\CMSIS\Include\"       #
-#    List file    =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\lcd_log.lst         #
-#    Object file  =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\lcd_log.o            #
+#    List file    =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\List\lcd_log.lst                               #
+#    Object file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\Obj\lcd_log.o                                  #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\lcd_log.c
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\lcd_log.c
       1          /**
       2            ******************************************************************************
       3            * @file    lcd_log.c

@@ -32,44 +32,6 @@
 #include "usb_conf.h"
 #include "usbd_desc.h"
 
-/** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
-  * @{
-  */
-
-
-/** @defgroup APP_VCP 
-  * @brief Mass storage application module
-  * @{
-  */ 
-
-/** @defgroup APP_VCP_Private_TypesDefinitions
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup APP_VCP_Private_Defines
-  * @{
-  */ 
-
-/**
-  * @}
-  */ 
-
-
-/** @defgroup APP_VCP_Private_Macros
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-
-/** @defgroup APP_VCP_Private_Variables
-  * @{
-  */ 
   
 #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
   #if defined ( __ICCARM__ ) /*!< IAR Compiler */
@@ -79,28 +41,13 @@
    
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END ;
 
-/**
-  * @}
-  */ 
 
+extern volatile uint8_t APP_Rx_Buffer [];
+extern volatile uint32_t APP_Rx_ptr_in;
+uint8_t mybyte = 0;
 
-/** @defgroup APP_VCP_Private_FunctionPrototypes
-  * @{
-  */ 
-/**
-  * @}
-  */ 
+void USB_CDC_buffer_write_byte(uint8_t byte);
 
-
-/** @defgroup APP_VCP_Private_Functions
-  * @{
-  */ 
-
-/**
-  * @brief  Program entry point
-  * @param  None
-  * @retval None
-  */
 int main(void)
 {
   __IO uint32_t i = 0;  
@@ -125,16 +72,28 @@ int main(void)
   /* Main loop */
   while (1)
   {
-    if (i++ == 0x100000)
+    if (i++ == 0x10000)
     {
-      STM_EVAL_LEDToggle(LED1);
-      STM_EVAL_LEDToggle(LED2);
-      STM_EVAL_LEDToggle(LED3);
-      STM_EVAL_LEDToggle(LED4);
+      USB_CDC_buffer_write_byte(mybyte);
+      mybyte++;
       i = 0;
     }
   }
 } 
+
+
+void USB_CDC_buffer_write_byte(uint8_t byte) {
+  APP_Rx_Buffer[APP_Rx_ptr_in++] = byte;
+  if(APP_Rx_ptr_in == APP_RX_DATA_SIZE)
+  {
+    APP_Rx_ptr_in = 0;
+  }
+}
+
+
+
+
+
 
 #ifdef USE_FULL_ASSERT
 /**

@@ -1,36 +1,35 @@
 ###############################################################################
 #                                                                             #
-# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  12:49:14 #
+# IAR ANSI C/C++ Compiler V6.50.3.4676/W32 for ARM      03/Feb/2017  13:18:00 #
 # Copyright 1999-2013 IAR Systems AB.                                         #
 #                                                                             #
 #    Cpu mode     =  thumb                                                    #
 #    Endian       =  little                                                   #
-#    Source file  =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\src\stm32f4xx_pwr.c                            #
-#    Command line =  "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\src\stm32f4xx_pwr.c" -D USE_STDPERIPH_DRIVER   #
-#                    -D STM32F4XX -D USE_STM324xG_EVAL -D USE_USB_OTG_FS      #
-#                    -lcN "C:\Users\Андрей\Google Диск\Стенд                  #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\" -o                #
-#                    "C:\Users\Андрей\Google Диск\Стенд                       #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\" --debug            #
-#                    --endian=little --cpu=Cortex-M4 -e --fpu=None            #
+#    Source file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\stm32f4x #
+#                    x_pwr.c                                                  #
+#    Command line =  "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\stm32f4 #
+#                    xx_pwr.c" -D USE_STDPERIPH_DRIVER -D STM32F4XX -D        #
+#                    USE_STM324xG_EVAL -D USE_USB_OTG_FS -lcN                 #
+#                    "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EV #
+#                    AL_USBD-FS\List\" -o "C:\Users\Андрей\Google             #
+#                    Диск\Stand_MNI\Модем\STM324xG-EVAL_USBD-FS\Obj\"         #
+#                    --debug --endian=little --cpu=Cortex-M4 -e --fpu=None    #
 #                    --dlib_config "C:\Program Files (x86)\IAR                #
 #                    Systems\Embedded Workbench 6.5\arm\INC\c\DLib_Config_Ful #
-#                    l.h" -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\"   #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\inc\"    #
-#                    -I "C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\"    #
+#                    l.h" -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\"   #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\inc\"    #
+#                    -I "C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\"    #
 #                    -Ohs --use_c++_inline -I "C:\Program Files (x86)\IAR     #
 #                    Systems\Embedded Workbench 6.5\arm\CMSIS\Include\"       #
-#    List file    =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\List\stm32f4xx_pwr.lst   #
-#    Object file  =  C:\Users\Андрей\Google Диск\Стенд                        #
-#                    МНИ\Модем\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_pwr.o      #
+#    List file    =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\List\stm32f4xx_pwr.lst                         #
+#    Object file  =  C:\Users\Андрей\Google Диск\Stand_MNI\Модем\STM324xG-EVA #
+#                    L_USBD-FS\Obj\stm32f4xx_pwr.o                            #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-C:\Users\Андрей\Google Диск\Стенд МНИ\Модем\src\stm32f4xx_pwr.c
+C:\Users\Андрей\Google Диск\Stand_MNI\Модем\src\stm32f4xx_pwr.c
       1          /**
       2            ******************************************************************************
       3            * @file    stm32f4xx_pwr.c
