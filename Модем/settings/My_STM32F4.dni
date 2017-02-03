@@ -1,0 +1,19 @@
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Aliases]
+A0=_ "C:\Users\Андрей\Desktop\My_STM32F4\STM32F4XX_LIB\stm32f4xx_rcc.c" ""
+A1=_ "C:\Users\Андрей\Desktop\My_STM32F4\main.c" ""
+Count=2
+SuppressDialog=0
